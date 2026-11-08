@@ -1,48 +1,95 @@
-### Project Proposal: Natural Query Language: 
+<div align="center">
 
-#### 1. Project Overview
-The NLP-to-SQL Translator aims to simplify the process of querying an SQL database by allowing users to speak or write queries in natural language. The system will leverage a pre-trained language model to understand natural language inputs, generate appropriate SQL queries, and execute them on a connected database to retrieve desired information. This project will demonstrate how users can interact with their databases without needing in-depth SQL knowledge, allowing for more intuitive data retrieval. Additionally, the project demonstrates the feasibility of implementing a generalized translation model or pipeline between natural language and programmatic languages or frameworks, using Structured Query Language (SQL) as the archetype.
+# Natural Query Language
 
-#### 2. High-Level Software Architecture
+**Ask a database a question in plain English, and get the SQL and the answer.**<br>
+A natural-language-to-SQL prototype built at ST Engineering: GPT-4o translates a request into
+SQLite-compatible SQL, explains its approach, and runs it against the database from a desktop UI.
 
-- Architecture Diagram
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://docs.python.org/3.11/)
+[![OpenAI](https://img.shields.io/badge/OpenAI%20API-GPT--4o-412991?logo=openai&logoColor=white)](https://platform.openai.com/docs/api-reference/chat)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://docs.python.org/3/library/sqlite3.html)
+[![Tkinter](https://img.shields.io/badge/Tkinter-UI-3776AB)](https://docs.python.org/3/library/tkinter.html)
+[![Pillow](https://img.shields.io/badge/Pillow-images-3776AB)](https://pillow.readthedocs.io)
 
-![Alt text](/docs/Architecture.png)
+![Commits](https://img.shields.io/badge/commits-15-555?style=flat-square&logo=git&logoColor=white)
+![Python](https://img.shields.io/badge/Python-800%2B%20lines-555?style=flat-square)
 
+</div>
 
-- Application Layer:
-  - Frontend User Interface (UI): A simple web interface or command-line tool where users can input natural language queries and view data from the executed SQL queries and/or image from data analysis
-  - Backend Service: Communicates with the AI Stack layer and the Database System layer via API calls
-    - Its roles include
-    1. Pass natural language user input to the LLM
-    2. Receive translated SQL query from LLM
-    3. Pass SQL query to the database system
-    4. Receive results from database
-    5. Send images and data to front end UI for viewing by user
-    6. Separating the LLM from the actual data to ensure long term support for the data and to explore more reliable cloud options for implementing the AI stack layer, ensuring minimal coupling between LLMs and data for security concerns.
+> [!NOTE]
+> This README was written by [Claude](https://docs.anthropic.com/en/docs/claude-code) using the
+> [agentic-repo-analysis](https://github.com/sp4ce-cowboy/agentic-workflows) skill, from the
+> project's code, git history and documentation. The original project proposal is in
+> **[DOCUMENTATION.md](DOCUMENTATION.md)**, and the detailed design in [docs/](docs).
 
-  - Data Analytics Engine: Receives data analysis script (python matplotlib/R script) from LLM and data from database systeam (after retrieving results from the SQL query produced by the LLM) and runs it as part of the backend service to generate an image output, which is passed to the frontend
+## At a glance
 
-- AI Stack:
-  - LLM Integration (OpenAI API or custom model): takes the user's natural language input and translates it into SQL. The language model (like GPT) should be fine-tuned to understand specific domain language and the database schema
-    - modes of fine tuning
-      1. Highly engineered prompt
-      2. Few shot prompting for better reliability
-    - locally hosted options
-      1. LLAMA 3.1
+| | |
+|---|---|
+| **What** | A desktop tool that turns natural-language questions into SQL with an LLM, runs them, and shows the results |
+| **Where** | ST Engineering, Singapore (internship project, Sep–Dec 2024) |
+| **Team** | Two interns, who planned and designed it together for their supervisor |
+| **Database** | The Sakila sample database (SQLite): films, actors, customers, rentals, payments |
+| **Status** | Working prototype, with a multi-agent design for the next version |
 
-- Database System Layer:
-  - Database Management System (DBMS)
-    - Database Schema Representation: This layer holds the schema of the SQL database, which is provided to the LLM as context to assist in query translation
-    - SQL Execution Engine: This module receives the generated SQL query, connects to the database, and executes the query to retrieve results
-  - Database
-    - Storage location of all data for querying
+## How it works
 
+```mermaid
+sequenceDiagram
+    actor U as User
+    participant UI as Tkinter app
+    participant LLM as GPT-4o
+    participant DB as SQLite (Sakila)
+    U->>UI: Question in plain English (optionally pick tables in the ER diagram)
+    UI->>LLM: System prompt with the full schema + the question
+    LLM-->>UI: SQL query + "technical translation" of the request
+    UI->>DB: Execute the SQL
+    DB-->>UI: Rows and column names
+    UI-->>U: Results table, with the translation and SQL in the console
+    Note over U,UI: If the query fails, re-prompt with the technical translation
+```
 
----
+- **Schema in the prompt.** The database schema is parsed from a text file and put in the
+  system prompt. The model must answer with SQLite-only SQL, with no markdown and no
+  comments, or give no query at all if the request is outside the schema.
+- **A technical translation.** Alongside the SQL, the model restates the request the way
+  an SQL expert would, so the user can check the approach before trusting the result.
+- **Re-prompting.** When a query fails, one click sends the technical translation back
+  with a request for a corrected query. The conversation is kept in a JSON chat history.
+- **UI.** A query box, an ER-diagram panel for selecting tables, a results table
+  (`ttk.Treeview`), and a console window logging each step.
 
-#### 3. Implementation Details
+## The multi-agent design
 
-- Sequence Diagram (of main success scenario)
+The next version ([docs/multi_agent.md](docs/multi_agent.md)) splits the work across agents.
+Long prompts make LLMs hallucinate, and one prompt can't handle every failure mode.
 
-![Alt text](/docs/SequenceDiagram.png)
+| Agent | Job |
+|---|---|
+| **Selector** | Maps the entities and relationships in the question to tables and columns in the schema, and asks for details if any are missing |
+| **Decomposer** | Breaks complex questions into simpler ones with reasoning chains |
+| **Error handler** | Takes an execution error and the last SQL, and repairs the query against the schema |
+| **Query separator** | Splits a "show me a chart of…" request into a data query and a visualisation task |
+| **Data visualiser** | Writes the plotting script for the rows the final SQL returns |
+
+![Multi-agent architecture](docs/MultiAgentArchitecture.png)
+
+## Skills shown
+
+| Skill | Where it shows | Docs |
+|---|---|---|
+| **LLM integration & prompt engineering**<br><img alt="OpenAI" src="https://img.shields.io/badge/OpenAI-GPT--4o-412991?logo=openai&logoColor=white"> | A system prompt with schema context, output constraints and a dual answer (SQL + translation): [`get_sql_query`](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L267-L328) | [Chat Completions](https://platform.openai.com/docs/api-reference/chat) |
+| **Text-to-SQL**<br><img alt="SQLite" src="https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white"> | Generated SQL executed against the Sakila schema, with results rendered generically from the cursor's columns: [`execute_query`](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L178-L227) | [sqlite3](https://docs.python.org/3/library/sqlite3.html) |
+| **Error recovery** | Failed queries re-prompted with the model's own technical translation, and a persistent chat history: [`reprompt_query`, chat history](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L229-L265) | — |
+| **Desktop UI**<br><img alt="Tkinter" src="https://img.shields.io/badge/Tkinter-ttk-3776AB"> | An ER-diagram table picker, a results `Treeview` and a logging console: [widgets](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L370-L466) | [tkinter](https://docs.python.org/3/library/tkinter.html) |
+| **Multi-agent LLM design** | Five agents, each with one concern: [docs/multi_agent.md](docs/multi_agent.md) | — |
+| **Software design docs** | Proposal, architecture and sequence diagrams: [DOCUMENTATION.md](DOCUMENTATION.md), [docs/](docs) | — |
+
+## Getting started
+
+```sh
+pip install openai pillow
+echo 'api_key = "sk-..."' > src/apikey.py   # your OpenAI key; apikey.py is git-ignored
+cd src && python pgconnection.py
+```
