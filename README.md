@@ -18,10 +18,10 @@ SQLite-compatible SQL, explains its approach, and runs it against the database f
 </div>
 
 > [!NOTE]
-> This README was written by [Claude](https://docs.anthropic.com/en/docs/claude-code) using the
-> [agentic-repo-analysis](https://github.com/sp4ce-cowboy/agentic-workflows) skill, from the
-> project's code, git history and documentation. The original project proposal is in
-> **[DOCUMENTATION.md](DOCUMENTATION.md)**, and the detailed design in [docs/](docs).
+> This consolidated README page was added by [Claude](https://docs.anthropic.com/en/docs/claude-code)
+> using the [agentic-repo-analysis](https://github.com/sp4ce-cowboy/agentic-workflows) skill, from the
+> project's code, git history and documentation. The original README, the team's project
+> proposal, is in **[DOCUMENTATION.md](DOCUMENTATION.md)**, and the detailed design is in [docs/](docs).
 
 ## At a glance
 
