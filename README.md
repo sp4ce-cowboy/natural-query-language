@@ -19,11 +19,11 @@ SQLite-compatible SQL, explains its approach, and runs it against the database f
 
 > [!NOTE]
 > This consolidated README page was added by
-> [Claude](https://docs.anthropic.com/en/docs/claude-code) on 9 Nov 2026 using the
+> [Claude Opus 5.5](https://docs.anthropic.com/en/docs/claude-code) in Nov 2026 using the
 > [agentic-repo-analysis](https://github.com/sp4ce-cowboy/agentic-workflows) skill, from the
 > project's code, git history and documentation. The project itself is from Aug 2024 – Jan 2025. The
-> original README, the team's project proposal, is in **[DOCUMENTATION.md](DOCUMENTATION.md)**, and
-> the detailed design is in [docs/](docs).
+> original README, the team's project proposal, is in **[README-ORIGINAL.md](README-ORIGINAL.md)**,
+> and the detailed design is in [docs/](docs).
 
 ## At a glance
 
@@ -86,7 +86,7 @@ Long prompts make LLMs hallucinate, and one prompt can't handle every failure mo
 | **Error recovery** | Failed queries re-prompted with the model's own technical translation, and a persistent chat history: [`reprompt_query`, chat history](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L229-L265) | — |
 | **Desktop UI**<br><img alt="Tkinter" src="https://img.shields.io/badge/Tkinter-ttk-3776AB"> | An ER-diagram table picker, a results `Treeview` and a logging console: [widgets](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L370-L466) | [tkinter](https://docs.python.org/3/library/tkinter.html) |
 | **Multi-agent LLM design** | Five agents, each with one concern: [docs/multi_agent.md](docs/multi_agent.md) | — |
-| **Software design docs** | Proposal, architecture and sequence diagrams: [DOCUMENTATION.md](DOCUMENTATION.md), [docs/](docs) | — |
+| **Software design docs** | Proposal, architecture and sequence diagrams: [README-ORIGINAL.md](README-ORIGINAL.md), [docs/](docs) | — |
 
 ## Getting started
 
