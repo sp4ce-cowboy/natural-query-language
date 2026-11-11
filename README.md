@@ -6,11 +6,11 @@
 A natural-language-to-SQL prototype built at ST Engineering: GPT-4o translates a request into
 SQLite-compatible SQL, explains its approach, and runs it against the database from a desktop UI.
 
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://docs.python.org/3.11/)
-[![OpenAI](https://img.shields.io/badge/OpenAI%20API-GPT--4o-412991?logo=openai&logoColor=white)](https://platform.openai.com/docs/api-reference/chat)
-[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://docs.python.org/3/library/sqlite3.html)
-[![Tkinter](https://img.shields.io/badge/Tkinter-UI-3776AB)](https://docs.python.org/3/library/tkinter.html)
-[![Pillow](https://img.shields.io/badge/Pillow-images-3776AB)](https://pillow.readthedocs.io)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py)
+[![OpenAI](https://img.shields.io/badge/OpenAI%20API-GPT--4o-412991?logo=openai&logoColor=white)](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L267-L328)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L178-L227)
+[![Tkinter](https://img.shields.io/badge/Tkinter-UI-3776AB)](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L370-L466)
+[![Pillow](https://img.shields.io/badge/Pillow-images-3776AB)](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L370-L384)
 
 ![Commits](https://img.shields.io/badge/commits-15-555?style=flat-square&logo=git&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-800%2B%20lines-555?style=flat-square)
