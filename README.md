@@ -77,7 +77,7 @@ Long prompts make LLMs hallucinate, and one prompt can't handle every failure mo
 
 ## Skills shown
 
-| Skill | Where it shows | Docs |
+| Skill | Where it shows (click the links for the code) | Docs |
 |---|---|---|
 | **LLM integration & prompt engineering**<br><img alt="OpenAI" src="https://img.shields.io/badge/OpenAI-GPT--4o-412991?logo=openai&logoColor=white"> | A system prompt with schema context, output constraints and a dual answer (SQL + translation): [`get_sql_query`](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L267-L328) | [Chat Completions](https://platform.openai.com/docs/api-reference/chat) |
 | **Text-to-SQL**<br><img alt="SQLite" src="https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white"> | Generated SQL executed against the Sakila schema, with results rendered generically from the cursor's columns: [`execute_query`](https://github.com/sp4ce-cowboy/natural-query-language/blob/626a70c4c86d0381546c51ad30493e2836447402/src/pgconnection.py#L178-L227) | [sqlite3](https://docs.python.org/3/library/sqlite3.html) |
