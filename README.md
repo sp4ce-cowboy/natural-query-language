@@ -77,7 +77,7 @@ Long prompts make LLMs hallucinate, and one prompt can't handle every failure mo
 
 ![Multi-agent architecture](docs/MultiAgentArchitecture.png)
 
-## Skills shown
+## Skills covered
 
 | Skill | Where it shows (click the links for the code) | Docs |
 |---|---|---|
